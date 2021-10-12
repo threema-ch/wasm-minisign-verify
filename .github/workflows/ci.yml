@@ -1,0 +1,59 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: '30 3 * * 4'
+
+name: CI
+
+jobs:
+
+  test:
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Deps
+      - name: Install NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.55
+          override: true
+      - name: Install
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      # Diagnostics
+      - name: Show versions
+        run: rustc --version && cargo --version && wasm-pack --version
+
+      # Build
+      - name: Build library
+        run: wasm-pack build --release -t web
+
+      # Run tests
+      - name: Run unit tests (cargo)
+        run: cargo test
+      - name: Run unit tests (wasm-pack)
+        run: wasm-pack test --node
+
+  clippy:
+    name: run clippy lints
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions-rs/toolchain@v1
+        with:
+            toolchain: 1.55
+            components: clippy
+            override: true
+      - uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --all-features

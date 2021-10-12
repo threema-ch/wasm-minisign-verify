@@ -1,0 +1,20 @@
+{
+  "name": "wasm-minisign-verify-demo",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --config webpack.dev.js --host 0.0.0.0 --disable-host-check"
+  },
+  "author": "",
+  "dependencies": {
+    "wasm-minisign-verify": "file:../pkg"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
+  }
+}
