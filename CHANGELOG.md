@@ -12,6 +12,10 @@ Possible log types:
 - `[security]` to invite users to upgrade in case of vulnerabilities.
 
 
+### v0.1.1 (2021-10-12)
+
+- [changed] Package project for web, not for a bundler (= no imports)
+
 ### v0.1.0 (2021-10-12)
 
 Initial release.

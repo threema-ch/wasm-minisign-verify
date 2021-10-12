@@ -312,7 +312,7 @@ dependencies = [
 
 [[package]]
 name = "wasm-minisign-verify"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cfg-if 1.0.0",
  "console_error_panic_hook",
