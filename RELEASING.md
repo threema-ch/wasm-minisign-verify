@@ -22,5 +22,7 @@ Commit & tag:
 Publish:
 
     rm -rf pkg && wasm-pack build --scope threema --release -t nodejs
+    # Now: Make sure that `pkg/package.json` includes `wasm_minisign_verify_bg.js`...
+    # See https://github.com/rustwasm/wasm-pack/issues/990
     cd pkg && npm publish --access=public && cd ..
     git push && git push --tags
