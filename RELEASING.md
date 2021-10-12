@@ -21,6 +21,6 @@ Commit & tag:
 
 Publish:
 
-    rm -rf pkg && wasm-pack build --scope threema --release -t web
+    rm -rf pkg && wasm-pack build --scope threema --release -t nodejs
     cd pkg && npm publish --access=public && cd ..
     git push && git push --tags
