@@ -4,6 +4,7 @@ description = "The rust-minisign-verify crate compiled to WebAssembly."
 version = "0.1.0"
 authors = ["Danilo Bargen <danilo.bargen@ŧhreema.ch>"]
 license = "MIT OR Apache-2.0"
+repository = "https://github.com/threema-ch/wasm-minisign-verify"
 edition = "2018"
 
 [lib]

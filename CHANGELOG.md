@@ -12,6 +12,6 @@ Possible log types:
 - `[security]` to invite users to upgrade in case of vulnerabilities.
 
 
-### Unreleased
+### v0.1.0 (2021-10-12)
 
 Initial release.
