@@ -48,10 +48,10 @@ pub struct PublicKey(minisign_verify::PublicKey);
 #[wasm_bindgen]
 impl PublicKey {
     /// Create a Minisign public key from a string, as in the `minisign.pub` file
-    pub fn decode(lines_str: &str) -> PublicKey {
+    pub fn decode(lines_str: &str) -> Result<PublicKey, JsValue> {
         match minisign_verify::PublicKey::decode(lines_str) {
-            Ok(pk) => PublicKey(pk),
-            Err(e) => wasm_bindgen::throw_str(&format!("Decoding public key failed: {}", e)),
+            Ok(pk) => Ok(PublicKey(pk)),
+            Err(e) => Err(format!("Decoding public key failed: {}", e).into()),
         }
     }
 
@@ -60,10 +60,10 @@ impl PublicKey {
     ///
     /// If the verification succeeds, this function returns `true`. If the
     /// verification fails, an exception is thrown.
-    pub fn verify(&self, bin: &[u8], signature: &Signature) -> bool {
+    pub fn verify(&self, bin: &[u8], signature: &Signature) -> Result<bool, JsValue> {
         match self.0.verify(bin, &signature.0, true) {
-            Ok(()) => true,
-            Err(e) => wasm_bindgen::throw_str(&format!("Signature verification failed: {}", e))
+            Ok(()) => Ok(true),
+            Err(e) => Err(format!("Signature verification failed: {}", e).into()),
         }
     }
 }
@@ -74,10 +74,10 @@ pub struct Signature(minisign_verify::Signature);
 #[wasm_bindgen]
 impl Signature {
     /// Create a Minisign signature from a string
-    pub fn decode(lines_str: &str) -> Signature {
+    pub fn decode(lines_str: &str) -> Result<Signature, JsValue> {
         match minisign_verify::Signature::decode(lines_str) {
-            Ok(pk) => Signature(pk),
-            Err(e) => wasm_bindgen::throw_str(&format!("Decoding signature failed: {}", e)),
+            Ok(pk) => Ok(Signature(pk)),
+            Err(e) => Err(format!("Decoding signature failed: {}", e).into()),
         }
     }
 }
@@ -95,13 +95,16 @@ mod tests {
             "RWQzRRtiOy/fYEU/vGHUEfBg+lSmrdpViX3l9fX1Ps6FMBrBcsMw9uxsLPFr9pAMdKy1NVEX3MsHsuCKlSVNYc4C5/pCnU/Kugk=\n",
             "trusted comment: timestamp:1634045550	file:test.txt\n",
             "zEHzYWS0L/lFlN3hfMdAJA0MsVfazBXbwSw9XihxQ0msFQPlC30F6Ajvxi67KEFNd1GUhdi3DcslssTW8MUECQ==",
-        ));
+        )).expect("Could not decode signature");
 
         let pk: PublicKey = PublicKey::decode(concat!(
             "untrusted comment: minisign public key 60DF2F3B621B4533\n",
             "RWQzRRtiOy/fYNCli5tW96CO6R+FnO92LceeIoWlCLj+BTVe+6q8T69M",
-        ));
+        ))
+        .expect("Could not decode public key");
 
-        assert!(pk.verify(b"test\n", &sig));
+        assert!(pk
+            .verify(b"test\n", &sig)
+            .expect("Could not verify signature"));
     }
 }
