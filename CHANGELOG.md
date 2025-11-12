@@ -12,6 +12,10 @@ Possible log types:
 - `[security]` to invite users to upgrade in case of vulnerabilities.
 
 
+### v0.2.0-rc.1 (2025-11-12)
+
+- [changed] Maintenance, upgrade all dependencies
+
 ### v0.1.3 (2021-10-12)
 
 - [fixed] Fix packaging bug (missing `wasm_minisign_verify_bg.js` file)
