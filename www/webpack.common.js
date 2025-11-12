@@ -9,7 +9,14 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bootstrap.[name].bundle.js',
     },
+    experiments: {
+        asyncWebAssembly: true,
+    },
     plugins: [
-        new CopyWebpackPlugin(['index.html']),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'index.html' }
+            ]
+        }),
     ],
 };

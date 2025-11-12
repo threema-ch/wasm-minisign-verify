@@ -1,9 +1,9 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-    mode: 'none',
+    mode: 'production',
     devtool: 'source-map',
     performance: {
         hints: 'warning'
@@ -12,11 +12,10 @@ module.exports = merge(common, {
         pathinfo: false
     },
     optimization: {
-        namedModules: false,
-        namedChunks: false,
+        moduleIds: 'deterministic',
+        chunkIds: 'deterministic',
         nodeEnv: 'production',
         flagIncludedChunks: true,
-        occurrenceOrder: true,
         sideEffects: true,
         usedExports: true,
         concatenateModules: true,
@@ -26,13 +25,11 @@ module.exports = merge(common, {
             maxAsyncRequests: 5,
             maxInitialRequests: 3,
         },
-        noEmitOnErrors: true,
+        emitOnErrors: false,
         checkWasmTypes: true,
         minimize: false,
     },
     plugins: [
-        new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
+        new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") })
     ]
 });
