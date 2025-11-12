@@ -63,7 +63,7 @@ impl PublicKey {
     pub fn verify(&self, bin: &[u8], signature: &Signature) -> bool {
         match self.0.verify(bin, &signature.0, true) {
             Ok(()) => true,
-            Err(e) => wasm_bindgen::throw_str(&format!("Signature verification failed: {}", e))
+            Err(e) => wasm_bindgen::throw_str(&format!("Signature verification failed: {}", e)),
         }
     }
 }
